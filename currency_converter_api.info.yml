@@ -1,0 +1,5 @@
+name: Currency Converter API
+type: module
+description: 'Allows to use the currency converter and rates using different providers.'
+package: Currency Converter API
+core: 8.x
