@@ -1,0 +1,10 @@
+1. Create configuration form
+ - Provider
+ - Allowed currencies (get all from selected provider)
+ - Main currency
+
+2. Create plugin type 'Currency Converter Provider'
+
+3. Create 'Currency Converter' for free.currencyconverterapi.com (with all allowed currencies)
+
+4. Create cron job for updating rates.
