@@ -1,0 +1,4 @@
+services:
+  plugin.manager.currency_converter_api:
+    class: Drupal\currency_converter_api\CurrencyConverterApiProviderManager
+    parent: default_plugin_manager
