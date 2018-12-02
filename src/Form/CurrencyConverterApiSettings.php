@@ -31,10 +31,13 @@ class CurrencyConverterApiSettings extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('currency_converter_api.settings');
+    $manager = \Drupal::service('plugin.manager.currency_converter_api');
+    $plugins = $manager->getDefinitions();
+    $api_provider_options = [];
 
-    $api_provider_options = [
-      'free_currency_converter_api' => $this->t('Free Currency Converter API'),
-    ];
+    foreach ($plugins as $key => $plugin) {
+      $api_provider_options[$key] = $plugin['name'];
+    }
     $api_provider = $config->get('api_provider');
     $form['api_provider'] = array(
       '#type' => 'select',
