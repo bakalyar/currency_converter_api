@@ -47,11 +47,16 @@ class CurrencyConverterApiSettings extends ConfigFormBase {
       '#required' => TRUE,
     );
 
-    $allowed_currencies_options = [
-      'eur' => $this->t('Euro'),
-      'usd' => $this->t('American dollar'),
-      'uah' => $this->t('Ukrainian hryvnia'),
-    ];
+    /* @var \Drupal\currency_converter_api\CurrencyConverterApiProviderInterface $provider */
+    $provider = $manager->createInstance('free_currency_converter_api');
+    $allowed_currencies_array = $provider->getAllCurrencies();
+    $allowed_currencies_options = [];
+
+    foreach ($allowed_currencies_array as $key => $currency) {
+      $allowed_currencies_options[$key] = $currency['currencyName'];
+    }
+    asort($allowed_currencies_options);
+
     $allowed_currencies = $config->get('allowed_currencies');
     $form['allowed_currencies'] = array(
       '#type' => 'checkboxes',

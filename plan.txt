@@ -3,7 +3,7 @@
  - Allowed currencies (get all from selected provider)
  - Main currency
 
-2. Create plugin type 'Currency Converter Provider'
+2. Create plugin type 'Currency Converter API Provider'
 
 3. Create a plugin 'Free Currency Converter API' for free.currencyconverterapi.com (with all allowed currencies)
 
