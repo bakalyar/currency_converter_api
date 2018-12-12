@@ -38,7 +38,7 @@ class CurrencyConverterApiSettings extends ConfigFormBase implements ContainerIn
   /**
    * Constructs a new CurrencyConverterApiSettings form.
    *
-   * @param \Drupal\currency_converter_api\CurrencyConverterApiProviderManager
+   * @param \Drupal\currency_converter_api\CurrencyConverterApiProviderManager $currency_converter_api_provider_manager
    *   The Currency Converter API Provider plugin manager.
    */
   public function __construct(CurrencyConverterApiProviderManager $currency_converter_api_provider_manager) {

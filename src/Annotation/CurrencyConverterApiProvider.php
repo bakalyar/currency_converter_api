@@ -35,10 +35,10 @@ class CurrencyConverterApiProvider extends Plugin {
   public $name;
 
   /**
-   * The host of the provider.
+   * The API url of the provider.
    *
    * @var string
    */
-  public $host;
+  public $api_url;
 
 }

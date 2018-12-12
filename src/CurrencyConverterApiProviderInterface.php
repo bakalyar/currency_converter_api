@@ -17,10 +17,10 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
   public function getName();
 
   /**
-   * Returns the host of the currency converter API provider.
+   * Returns the API url of the currency converter API provider.
    *
    * @return string
    */
-  public function getHost();
+  public function getApiUrl();
 
 }
