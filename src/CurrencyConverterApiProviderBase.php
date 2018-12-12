@@ -28,11 +28,19 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
   protected $httpClient;
 
   /**
+   * The API url.
+   *
+   * @var string
+   */
+  protected $apiUrl;
+
+  /**
    * Constructs a new object.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->httpClient = $http_client;
+    $this->apiUrl = $this->getApiUrl();
   }
 
   /**
@@ -57,8 +65,8 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
   /**
    * {@inheritdoc}
    */
-  public function getHost() {
-    return $this->pluginDefinition['host'];
+  public function getApiUrl() {
+    return $this->pluginDefinition['api_url'];
   }
 
 }
