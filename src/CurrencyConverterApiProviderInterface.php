@@ -9,6 +9,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
  */
 interface CurrencyConverterApiProviderInterface extends PluginInspectionInterface {
 
+  // TODO: Provide all methods.
   /**
    * Returns the name of the currency converter API provider.
    *

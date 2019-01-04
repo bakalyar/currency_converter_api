@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use GuzzleHttp\ClientInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Cache\UseCacheBackendTrait;
+use Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface;
 
 /**
  * Provides a base implementation for a currency converter API provider plugin.
@@ -35,11 +36,19 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
   protected $apiUrl;
 
   /**
+   * The factory for expirable key value stores.
+   *
+   * @var \Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface
+   */
+  protected $keyValueExpirableFactory;
+
+  /**
    * Constructs a new object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, KeyValueExpirableFactoryInterface $key_value_expirable_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->httpClient = $http_client;
+    $this->keyValueExpirableFactory = $key_value_expirable_factory;
     $this->apiUrl = $this->getApiUrl();
   }
 
@@ -51,7 +60,8 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('http_client')
+      $container->get('http_client'),
+      $container->get('keyvalue.expirable')
     );
   }
 
