@@ -52,7 +52,7 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
   }
 
   /**
-   * Import and update rates for all allowed currencies.
+   * Import and update expired(older than 1hr) rates for all allowed currencies.
    *
    * @param string $base_currency
    *   The base currency.
@@ -70,29 +70,34 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
       unset($allowed_currencies[$base_currency]);
     }
 
-    // TODO: Test it.
     $endpoint = $this->apiUrl . '/convert';
+    $expirable_collection = $this->keyValueExpirableFactory->get('currency_converter_api.free_currency_converter_api');
 
     foreach ($allowed_currencies as $allowed_currency) {
-      try {
-        $sell_id = "{$base_currency}_{$allowed_currency}";
-        $buy_id = "{$allowed_currency}_{$base_currency}";
-        $options = [
-          'query' => [
-            'q' => "$sell_id,$buy_id",
-          ],
-        ];
-        $response = $this->httpClient->request('GET', $endpoint, $options);
-        $response_result = Json::decode($response->getBody()->__toString());
+      if ($allowed_currency !== $base_currency) {
+        $buy_id = "{$base_currency}_{$allowed_currency}";
+        $sell_id = "{$allowed_currency}_{$base_currency}";
 
         foreach ([$sell_id, $buy_id] as $convert_id) {
-          if (!empty($response_result['results'][$convert_id]['val'])) {
-            \Drupal::state()->set($convert_id, $response_result['results'][$convert_id]['val']);
+          if (!$expirable_collection->get($convert_id)) {
+            try {
+              $options = [
+                'query' => [
+                  'q' => $convert_id,
+                  'compact' => 'ultra',
+                ],
+              ];
+              $response = $this->httpClient->request('GET', $endpoint, $options);
+              $response_result = Json::decode($response->getBody()->__toString());
+              if (!empty($response_result[$convert_id])) {
+                $expirable_collection->setWithExpire($convert_id, $response_result[$convert_id], 3600);
+              }
+            }
+            catch (RequestException $e) {
+              throw new RequestException("Could not retrieve the rate from $endpoint, for $sell_id and $buy_id", NULL, $e);
+            }
           }
         }
-      }
-      catch (RequestException $e) {
-        throw new RequestException("Could not retrieve the rate from $endpoint, for $sell_id and $buy_id", NULL, $e);
       }
     }
   }
