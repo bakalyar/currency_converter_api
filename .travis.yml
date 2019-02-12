@@ -9,6 +9,7 @@ env:
 
 before_install:
   - echo 'Started'
+  - chmod +x ${BUILD_DIR}/build.sh
 
 install:
   - echo 'Finished'
