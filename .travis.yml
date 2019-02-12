@@ -2,11 +2,18 @@ language: php
 php: 7.1
 dist: trusty
 
+env:
+  global:
+    - BUILD_DIR=$TRAVIS_BUILD_DIR
+
+
 before_install:
   - echo 'Started'
 
 install:
   - echo 'Finished'
+
+script: ${BUILD_DIR}/build.sh
 
 jobs:
   include:
