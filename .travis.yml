@@ -1,16 +1,8 @@
 language: php
+php: 7.1
 dist: trusty
 
-matrix:
-  fast_finish: true
-
-env:
-  global:
-    - BUILD_DIR=$TRAVIS_BUILD_DIR
-
 before_install:
-  # Disable xdebug.
-  - phpenv config-rm xdebug.ini
   - echo 'Started'
 
 install:
@@ -19,5 +11,4 @@ install:
 jobs:
   include:
     - stage: Test
-      php: 7.1
       if: (branch IN (master, develop, travis-refactor)) AND (type IN (pull_request))
