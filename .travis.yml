@@ -15,8 +15,8 @@ jobs:
         - chmod +x ${BUILD_DIR}/build.sh
       before_script:
         - composer install
-        - export PATH="$HOME/.composer/vendor/bin:$PATH"
       script:
-        - ls $HOME/.composer/vendor
+        - ls -d $HOME/.?*
+        - ls -d $BUILD_DIR/.?*
         - phpcs -i
         - ${BUILD_DIR}/build.sh
