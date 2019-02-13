@@ -11,11 +11,10 @@ jobs:
     - stage: Test
       if: (branch IN (master, develop)) AND (type IN (pull_request))
       before_install:
-        - echo 'Started'
-        - chmod +x $BUILD_DIR/build.sh
+        - echo 'Started checking PR'
       before_script:
-        - composer global install
+        - composer install
       script:
-        - export PATH="$PATH:$HOME/.composer/vendor/bin"
+        - export PATH="$BUILD_DIR/vendor/bin:$PATH"
+        - phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
         - phpcs -i
-        - $BUILD_DIR/build.sh
