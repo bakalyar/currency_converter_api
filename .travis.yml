@@ -9,9 +9,11 @@ env:
 jobs:
   include:
     - stage: Test
-      if: (branch IN (master, develop, travis-refactor)) AND (type IN (pull_request))
+      if: (branch IN (master, develop)) AND (type IN (pull_request))
       before_install:
         - echo 'Started'
-        - composer install
         - chmod +x ${BUILD_DIR}/build.sh
-      script: ${BUILD_DIR}/build.sh
+      script:
+        - composer install
+        - php bin/phpcs -i
+        - ${BUILD_DIR}/build.sh
