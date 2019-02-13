@@ -6,13 +6,11 @@ env:
   global:
     - BUILD_DIR=$TRAVIS_BUILD_DIR
 
-
 before_install:
   - echo 'Started'
+  - composer self-update
+  - composer global require "squizlabs/php_codesniffer=*"
   - chmod +x ${BUILD_DIR}/build.sh
-
-install:
-  - echo 'Finished'
 
 script: ${BUILD_DIR}/build.sh
 
