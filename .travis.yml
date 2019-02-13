@@ -16,10 +16,6 @@ jobs:
       before_script:
         - composer install
       script:
-        - ls -d $HOME/.?*
-        - ls $HOME
-        - ls $HOME/bin
-        - ls -d $BUILD_DIR/.?*
-        - ls $BUILD_DIR
+        - export export PATH="$BUILD_DIR/vendor/squizlabs/php_codesniffer/bin:$PATH"
         - phpcs -i
         - $BUILD_DIR/build.sh
