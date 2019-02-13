@@ -1,0 +1,13 @@
+{
+    "name": "bakalyar/currency_converter_api",
+    "type": "project",
+    "require": {
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "authors": [
+        {
+            "name": "bakalyar",
+            "email": "andrew.bakalyar@gmail.com"
+        }
+    ]
+}

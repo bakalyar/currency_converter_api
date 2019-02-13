@@ -8,8 +8,7 @@ env:
 
 before_install:
   - echo 'Started'
-  - composer self-update
-  - composer global require "squizlabs/php_codesniffer=*"
+  - composer install
   - chmod +x ${BUILD_DIR}/build.sh
 
 script: ${BUILD_DIR}/build.sh
