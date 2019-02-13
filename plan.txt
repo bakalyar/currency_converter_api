@@ -8,3 +8,5 @@
 3. Create a plugin 'Free Currency Converter API' for free.currencyconverterapi.com (with all allowed currencies)
 
 4. Create cron job for updating rates.
+
+5. Provide Travis CI.
