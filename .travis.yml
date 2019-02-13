@@ -12,11 +12,13 @@ jobs:
       if: (branch IN (master, develop)) AND (type IN (pull_request))
       before_install:
         - echo 'Started'
-        - chmod +x ${BUILD_DIR}/build.sh
+        - chmod +x $BUILD_DIR/build.sh
       before_script:
         - composer install
       script:
         - ls -d $HOME/.?*
+        - ls $HOME
         - ls -d $BUILD_DIR/.?*
+        - ls $BUILD_DIR
         - phpcs -i
-        - ${BUILD_DIR}/build.sh
+        - $BUILD_DIR/build.sh
