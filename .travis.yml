@@ -6,14 +6,12 @@ env:
   global:
     - BUILD_DIR=$TRAVIS_BUILD_DIR
 
-before_install:
-  - echo 'Started'
-  - composer install
-  - chmod +x ${BUILD_DIR}/build.sh
-
-script: ${BUILD_DIR}/build.sh
-
 jobs:
   include:
     - stage: Test
       if: (branch IN (master, develop, travis-refactor)) AND (type IN (pull_request))
+      before_install:
+        - echo 'Started'
+        - composer install
+        - chmod +x ${BUILD_DIR}/build.sh
+      script: ${BUILD_DIR}/build.sh
