@@ -17,7 +17,6 @@ jobs:
         - composer install
         - export PATH="$HOME/.composer/vendor/bin:$PATH"
       script:
-        - echo $PATH
-        - echo $HOME
+        - ls $HOME/.composer/vendor/bin
         - phpcs -i
         - ${BUILD_DIR}/build.sh
