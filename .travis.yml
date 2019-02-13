@@ -15,5 +15,6 @@ jobs:
         - chmod +x ${BUILD_DIR}/build.sh
       script:
         - composer install
+        - ls
         - php bin/phpcs -i
         - ${BUILD_DIR}/build.sh
