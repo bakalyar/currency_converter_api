@@ -10,8 +10,6 @@ jobs:
   include:
     - stage: Test
       if: (branch IN (master, develop)) AND (type IN (pull_request))
-      before_install:
-        - 'Started checking PR'
       before_script:
         - composer install
       script:
