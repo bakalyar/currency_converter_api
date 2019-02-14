@@ -14,6 +14,7 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
    * Returns the name of the currency converter API provider.
    *
    * @return string
+   *   Name of the provider.
    */
   public function getName();
 
@@ -21,6 +22,7 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
    * Returns the API url of the currency converter API provider.
    *
    * @return string
+   *   API url.
    */
   public function getApiUrl();
 
