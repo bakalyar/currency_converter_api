@@ -12,11 +12,11 @@ jobs:
           name: "List bin"
           command: ls $HOME/project/vendor/bin
       - run:
-          name: "Export vendor/bin to PATH"
-          command: export PATH="$HOME/project/vendor/bin:$PATH"
+          name: "Test php"
+          command: php -v
       - run:
           name: "Test phpcs"
-          command: phpcs -i
+          command: vendor/bin/phpcs -i
 
 
 #      - run: phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
