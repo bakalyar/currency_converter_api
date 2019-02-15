@@ -7,7 +7,7 @@ use Drupal\Component\Annotation\Plugin;
 /**
  * Defines a Currency Converter API Provider annotation object.
  *
- * Plugin Namespace: Plugin\CurrencyConverterApiProvider
+ * Plugin Namespace: Plugin\CurrencyConverterApiProvider.
  *
  * @see \Drupal\currency_converter_api\CurrencyConverterApiProviderManager
  * @see \Drupal\currency_converter_api\CurrencyConverterApiProviderInterface
