@@ -6,18 +6,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Install Dependencies"
+          name: "Install dependencies"
           command: composer install
       - run:
-          name: "List bin"
-          command: ls $HOME/project/vendor/bin
-      - run:
-          name: "Test php"
-          command: php -v
+          name: "Set Drupal coding standards"
+          command: vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
       - run:
           name: "Test phpcs"
           command: vendor/bin/phpcs -i
 
 
-#      - run: phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
+#      - run: phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
 #      - run: phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor $BUILD_DIR
