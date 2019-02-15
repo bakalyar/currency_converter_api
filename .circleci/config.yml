@@ -3,10 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/php:latest
-    working_directory: ./
     steps:
-      - checkout:
-          path: ./
       - run:
           name: "Install Dependencies"
           command: |
