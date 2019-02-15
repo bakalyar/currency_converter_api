@@ -5,6 +5,8 @@ jobs:
       - image: circleci/php:latest
     steps:
       - run:
+          name: "List of directories"
+          command: ls
+      - run:
           name: "Install Dependencies"
-          command: |
-            composer install
+          command: composer install
