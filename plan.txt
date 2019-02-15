@@ -5,7 +5,8 @@
 
 2. Create plugin type 'Currency Converter API Provider'
 
-3. Create a plugin 'Free Currency Converter API' for free.currencyconverterapi.com (with all allowed currencies)
+3. Create a plugin 'Free Currency Converter API' for
+free.currencyconverterapi.com (with all allowed currencies)
 
 4. Create cron job for updating rates.
 

@@ -21,6 +21,8 @@ class RatesController extends ControllerBase {
 
   /**
    * The config 'currency_converter_api.settings'.
+   *
+   * @var \Drupal\Core\Config\Config
    */
   protected $currencyConverterApiConfig;
 
@@ -36,6 +38,8 @@ class RatesController extends ControllerBase {
    *
    * @param \Drupal\currency_converter_api\CurrencyConverterApiProviderManager $currency_converter_api_provider_manager
    *   The Currency Converter API Provider plugin manager.
+   * @param \Drupal\Core\KeyValueStore\KeyValueExpirableFactoryInterface $key_value_expirable_factory
+   *   The factory for expirable key value stores.
    */
   public function __construct(CurrencyConverterApiProviderManager $currency_converter_api_provider_manager, KeyValueExpirableFactoryInterface $key_value_expirable_factory) {
     $this->currencyConverterApiProviderManager = $currency_converter_api_provider_manager;
