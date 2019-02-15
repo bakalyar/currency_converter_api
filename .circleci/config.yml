@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:latest
+    steps:
+      - checkout
+      - run:
+          name: "List of directories"
+          command: ls
+      - run:
+          name: "Install Dependencies"
+          command: composer install
