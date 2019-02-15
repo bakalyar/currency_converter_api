@@ -12,6 +12,12 @@ jobs:
           name: "List root"
           command: ls
       - run:
+          name: "Current path"
+          command: pwd
+      - run:
+          name: "Home path"
+          command: echo $HOME
+      - run:
           name: "List $CIRCLE_WORKING_DIRECTORY"
           command: ls $CIRCLE_WORKING_DIRECTORY
       - run: export PATH="/vendor/bin:$PATH"
