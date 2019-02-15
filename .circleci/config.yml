@@ -11,7 +11,13 @@ jobs:
       - run:
           name: "List bin"
           command: ls $HOME/project/vendor/bin
+      - run:
+          name: "Export vendor/bin to PATH"
+          command: export PATH="$HOME/project/vendor/bin:$PATH"
+      - run:
+          name: "Test phpcs"
+          command: phpcs -i
 
-      - run: export PATH="$HOME/project/vendor/bin:$PATH"
-      - run: phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
-      - run: phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor $BUILD_DIR
+
+#      - run: phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
+#      - run: phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor $BUILD_DIR
