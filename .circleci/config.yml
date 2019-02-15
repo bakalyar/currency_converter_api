@@ -9,17 +9,9 @@ jobs:
           name: "Install Dependencies"
           command: composer install
       - run:
-          name: "List root"
-          command: ls
-      - run:
-          name: "Current path"
-          command: pwd
-      - run:
-          name: "Home path"
-          command: echo $HOME
-      - run:
-          name: "List $CIRCLE_WORKING_DIRECTORY"
-          command: ls $CIRCLE_WORKING_DIRECTORY
-      - run: export PATH="/vendor/bin:$PATH"
+          name: "List bin"
+          command: ls $HOME/project/vendor/bin
+
+      - run: export PATH="$HOME/project/vendor/bin:$PATH"
       - run: phpcs --config-set installed_paths $BUILD_DIR/vendor/drupal/coder/coder_sniffer
       - run: phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor $BUILD_DIR
