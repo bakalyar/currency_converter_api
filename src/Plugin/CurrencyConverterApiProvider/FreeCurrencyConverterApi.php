@@ -28,6 +28,7 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
   public function getAllCurrencies() {
     $cache_id = 'free_currency_converter_api:all_currencies';
     $endpoint = $this->apiUrl . '/currencies';
+    $results = [];
 
     $cached = $this->cacheGet($cache_id);
     if ($cached) {
@@ -37,15 +38,16 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
     try {
       $response = $this->httpClient->request('GET', $endpoint);
       $response_result = Json::decode($response->getBody()->__toString());
+      $results = !empty($response_result['results']) ? $response_result['results'] : [];
+      if (!empty($results)) {
+        $this->cacheSet($cache_id, $results);
+      }
     }
     catch (RequestException $e) {
-      throw new RequestException("Could not retrieve the currencies from $endpoint", NULL, $e);
-    }
-
-    $results = !empty($response_result['results']) ? $response_result['results'] : [];
-
-    if (!empty($results)) {
-      $this->cacheSet($cache_id, $results);
+      $this->logger->error("Cannot retrieve the currencies: %msg.", [
+        '%endpoint' => $endpoint,
+        '%msg' => $e->getMessage(),
+      ]);
     }
 
     return $results;
