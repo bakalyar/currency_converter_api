@@ -5,6 +5,13 @@ currency_converter_api.settings:
     _title: 'Currency converter API settings'
   requirements:
     _permission: 'administer site configuration'
+currency_converter_api.settings.allowed_currencies:
+  path: '/admin/config/services/currency-converter-api/allowed-currencies'
+  defaults:
+    _form: '\Drupal\currency_converter_api\Form\CurrencyConverterProviderAllowedCurrencies'
+    _title: 'Currency converter allowed currencies'
+  requirements:
+    _permission: 'administer site configuration'
 currency_converter_api.settings.rates:
   path: '/admin/config/services/currency-converter-api/rates'
   defaults:

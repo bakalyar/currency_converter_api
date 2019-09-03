@@ -9,7 +9,6 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
  */
 interface CurrencyConverterApiProviderInterface extends PluginInspectionInterface {
 
-  // TODO: Provide all methods.
   /**
    * Returns the name of the currency converter API provider.
    *
@@ -26,4 +25,23 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
    */
   public function getApiUrl();
 
+  /**
+   * Returns the form with specific for provider settings.
+   *
+   * @return array
+   *   Settings form.
+   */
+  public function getProviderSettingsForm();
+
+  /**
+   * Get all possible currencies for the provider.
+   *
+   * @return array
+   *   Array with all currencies.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getAllCurrencies();
+
+  // TODO: Provide the method 'convert($from, $to)' with caching and checking for accessible currencies for the provider;
 }
