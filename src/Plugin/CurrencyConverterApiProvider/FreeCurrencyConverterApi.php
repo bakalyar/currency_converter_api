@@ -73,7 +73,7 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
    * {@inheritdoc}
    */
   public function convert($from, $to) {
-    // TODO: Check if currencies are accessible for the provider;
+    // TODO: Check if currencies are accessible for the provider.
     $api_key = $this->currencyConverterApiConfig->get('api_key');
     $from_to_key = $from . '_' . $to;
     $from_to_cid = 'free_currency_converter_api:rate:' . $from_to_key;

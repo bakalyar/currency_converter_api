@@ -7,8 +7,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Render\Element\Checkboxes;
-use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\currency_converter_api\CurrencyConverterApiProviderManager;
 
 /**
@@ -25,6 +23,8 @@ class CurrencyConverterProviderAllowedCurrencies extends ConfigFormBase implemen
 
   /**
    * The config 'currency_converter_api.settings'.
+   *
+   * @var array
    */
   protected $currencyConverterApiConfig;
 
@@ -80,7 +80,6 @@ class CurrencyConverterProviderAllowedCurrencies extends ConfigFormBase implemen
     /* @var \Drupal\currency_converter_api\CurrencyConverterApiProviderInterface $provider */
     $provider = $this->currencyConverterApiProviderManager->createInstance($config_api_provider);
 
-
     // Provide all currencies for the selected provider.
     $allowed_currencies_array = $provider->getAllCurrencies();
     $allowed_currencies_options = [];
@@ -116,4 +115,5 @@ class CurrencyConverterProviderAllowedCurrencies extends ConfigFormBase implemen
 
     parent::submitForm($form, $form_state);
   }
+
 }

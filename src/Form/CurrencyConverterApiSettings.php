@@ -24,6 +24,8 @@ class CurrencyConverterApiSettings extends ConfigFormBase implements ContainerIn
 
   /**
    * The config 'currency_converter_api.settings'.
+   *
+   * @var array
    */
   protected $currencyConverterApiConfig;
 
@@ -133,4 +135,5 @@ class CurrencyConverterApiSettings extends ConfigFormBase implements ContainerIn
 
     parent::submitForm($form, $form_state);
   }
+
 }

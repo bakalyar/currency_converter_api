@@ -18,7 +18,6 @@ class RatesController extends ControllerBase {
    */
   protected $currencyConverterApiProviderManager;
 
-
   /**
    * Constructs a new RatesController.
    *

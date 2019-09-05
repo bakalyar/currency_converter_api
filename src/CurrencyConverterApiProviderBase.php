@@ -34,7 +34,7 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
   /**
    * The logger service.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface;
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $logger;
 

@@ -46,9 +46,9 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
   /**
    * Convert from one currency to another.
    *
-   * @param string
+   * @param string $from
    *   Code of input currency.
-   * @param string
+   * @param string $to
    *   Code of output currency.
    *
    * @return float
@@ -57,4 +57,5 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function convert($from, $to);
+
 }
