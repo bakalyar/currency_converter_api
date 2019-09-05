@@ -12,10 +12,13 @@ use Drupal\Component\Serialization\Json;
  * @CurrencyConverterApiProvider(
  *   id = "free_currency_converter_api",
  *   name = @Translation("Free Currency Converter API"),
- *   api_url = "https://free.currencyconverterapi.com/api/v6"
+ *   api_url = "https://free.currconv.com/api/v7"
  * )
  */
 class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
+
+  // TODO: add to settings form.
+  const CACHE_TIME = 86400;
 
   /**
    * {@inheritdoc}
@@ -39,12 +42,12 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
    * {@inheritdoc}
    */
   public function getAllCurrencies() {
-    $cache_id = 'free_currency_converter_api:all_currencies';
+    $cid = 'free_currency_converter_api:all_currencies';
     $api_key = $this->currencyConverterApiConfig->get('api_key');
     $endpoint = $this->apiUrl . '/currencies?apiKey=' . $api_key;
     $results = [];
 
-    $cached = $this->cacheGet($cache_id);
+    $cached = $this->cacheGet($cid);
     if ($cached) {
       return $cached->data;
     }
@@ -54,12 +57,11 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
       $response_result = Json::decode($response->getBody()->__toString());
       $results = !empty($response_result['results']) ? $response_result['results'] : [];
       if (!empty($results)) {
-        $this->cacheSet($cache_id, $results, $this->time->getCurrentTime() + 86400);
+        $this->cacheSet($cid, $results, $this->time->getCurrentTime() + self::CACHE_TIME);
       }
     }
     catch (RequestException $e) {
       $this->logger->error("Cannot retrieve the currencies: %msg.", [
-        '%endpoint' => $endpoint,
         '%msg' => $e->getMessage(),
       ]);
     }
@@ -67,56 +69,52 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
     return $results;
   }
 
-  // TODO: Use in the block.
-//  /**
-//   * Import and update expired(older than 1hr) rates for all allowed currencies.
-//   *
-//   * @param string $base_currency
-//   *   The base currency.
-//   * @param array $allowed_currencies
-//   *   All allowed currencies.
-//   *
-//   * @throws \GuzzleHttp\Exception\GuzzleException
-//   */
-//  public function updateAllRates($base_currency = '', array $allowed_currencies = []) {
-//    if (!$base_currency || empty($allowed_currencies)) {
-//      return;
-//    }
-//
-//    if (isset($allowed_currencies[$base_currency])) {
-//      unset($allowed_currencies[$base_currency]);
-//    }
-//
-//    $endpoint = $this->apiUrl . '/convert';
-//    $expirable_collection = $this->keyValueExpirableFactory->get('currency_converter_api.free_currency_converter_api');
-//
-//    foreach ($allowed_currencies as $allowed_currency) {
-//      if ($allowed_currency !== $base_currency) {
-//        $buy_id = "{$base_currency}_{$allowed_currency}";
-//        $sell_id = "{$allowed_currency}_{$base_currency}";
-//
-//        foreach ([$sell_id, $buy_id] as $convert_id) {
-//          if (!$expirable_collection->get($convert_id)) {
-//            try {
-//              $options = [
-//                'query' => [
-//                  'q' => $convert_id,
-//                  'compact' => 'ultra',
-//                ],
-//              ];
-//              $response = $this->httpClient->request('GET', $endpoint, $options);
-//              $response_result = Json::decode($response->getBody()->__toString());
-//              if (!empty($response_result[$convert_id])) {
-//                $expirable_collection->setWithExpire($convert_id, $response_result[$convert_id], 3600);
-//              }
-//            }
-//            catch (RequestException $e) {
-//              throw new RequestException("Could not retrieve the rate from $endpoint, for $sell_id and $buy_id", NULL, $e);
-//            }
-//          }
-//        }
-//      }
-//    }
-//  }
+  /**
+   * {@inheritdoc}
+   */
+  public function convert($from, $to) {
+    // TODO: Check if currencies are accessible for the provider;
+    $api_key = $this->currencyConverterApiConfig->get('api_key');
+    $from_to_key = $from . '_' . $to;
+    $from_to_cid = 'free_currency_converter_api:rate:' . $from_to_key;
+    $from_to_reverse_key = $to . '_' . $from;
+    $from_to_reverse_cid = 'free_currency_converter_api:rate:' . $from_to_reverse_key;
+    $endpoint = $this->apiUrl . '/convert?apiKey=' . $api_key . '&q=' . $from_to_key . ',' . $from_to_reverse_key;
+    $results = [];
+
+    $cached = $this->cacheGet($from_to_cid);
+    if ($cached) {
+      return $cached->data;
+    }
+
+    try {
+      $response = $this->httpClient->request('GET', $endpoint);
+      $response_result = Json::decode($response->getBody()->__toString());
+      $cache_time = $this->time->getCurrentTime() + self::CACHE_TIME;
+
+      // Get requested rate.
+      $results = !empty($response_result['results'][$from_to_key]['val']) ? $response_result['results'][$from_to_key]['val'] : [];
+      if (!empty($results)) {
+        $this->cacheSet($from_to_cid, $results, $cache_time);
+      }
+
+      // Cache for possible using reverse rate to reduce count of requests.
+      $reverse_results = !empty($response_result['results'][$from_to_reverse_key]['val']) ? $response_result['results'][$from_to_reverse_key]['val'] : [];
+      if (!empty($reverse_results)) {
+        $this->cacheSet($from_to_reverse_cid, $reverse_results, $cache_time);
+      }
+
+    }
+    catch (RequestException $e) {
+      $this->logger->error("Cannot convert from %from to %to: %msg.", [
+        '%from' => $from,
+        '%to' => $to,
+        '%msg' => $e->getMessage(),
+      ]);
+    }
+
+    return $results;
+
+  }
 
 }

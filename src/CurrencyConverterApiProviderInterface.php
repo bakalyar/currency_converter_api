@@ -43,5 +43,18 @@ interface CurrencyConverterApiProviderInterface extends PluginInspectionInterfac
    */
   public function getAllCurrencies();
 
-  // TODO: Provide the method 'convert($from, $to)' with caching and checking for accessible currencies for the provider;
+  /**
+   * Convert from one currency to another.
+   *
+   * @param string
+   *   Code of input currency.
+   * @param string
+   *   Code of output currency.
+   *
+   * @return float
+   *   Rate of output currency.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function convert($from, $to);
 }

@@ -12,10 +12,10 @@ currency_converter_api.settings.allowed_currencies:
     _title: 'Currency converter allowed currencies'
   requirements:
     _permission: 'administer site configuration'
-currency_converter_api.settings.rates:
-  path: '/admin/config/services/currency-converter-api/rates'
+currency_converter_api.settings.convert:
+  path: '/admin/config/services/currency-converter-api/convert'
   defaults:
-    _controller: '\Drupal\currency_converter_api\Controller\RatesController::getList'
-    _title: 'View currencies rates'
+    _controller: '\Drupal\currency_converter_api\Controller\RatesController::convert'
+    _title: 'Convert'
   requirements:
     _permission: 'administer site configuration'

@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Cache\UseCacheBackendTrait;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
  * Provides a base implementation for a currency converter API provider plugin.
@@ -61,9 +62,10 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
   /**
    * Constructs a new object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, LoggerChannelFactoryInterface $logger, TimeInterface $time, ConfigFactoryInterface $config_factory) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, LoggerChannelFactoryInterface $logger, TimeInterface $time, ConfigFactoryInterface $config_factory, CacheBackendInterface $cache_backend) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->httpClient = $http_client;
+    $this->cacheBackend = $cache_backend;
     $this->logger = $logger->get('currency_converter_api');
     $this->time = $time;
     $this->currencyConverterApiConfig = $config_factory->get('currency_converter_api.settings');
@@ -81,7 +83,8 @@ abstract class CurrencyConverterApiProviderBase extends PluginBase implements Cu
       $container->get('http_client'),
       $container->get('logger.factory'),
       $container->get('datetime.time'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('cache.default')
     );
   }
 
