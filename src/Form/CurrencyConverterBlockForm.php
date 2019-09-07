@@ -131,11 +131,12 @@ class CurrencyConverterBlockForm extends FormBase {
     $from = $form_state->getValue('from');
     $to = $form_state->getValue('to');
 
-    $rate = round($this->currencyConverterApiProvider->convert($from, $to));
+    $rate = $this->currencyConverterApiProvider->convert($from, $to);
+    $rate_rounded = round($rate, 2);
     $result = round($amount * $rate, 2);
 
     $element = $form['container'];
-    $element['result']['#markup'] = '<p>1' . $from . ' = ' . $rate . $to . '</p>';
+    $element['result']['#markup'] = '<p>1' . $from . ' = ' . $rate_rounded . $to . '</p>';
     $element['result']['#markup'] .= '<p><b>' . $amount . $from . ' = ' . $result . $to . '</b></p>';
 
     return $element;
