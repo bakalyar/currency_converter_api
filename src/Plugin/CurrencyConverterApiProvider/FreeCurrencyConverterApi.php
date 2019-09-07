@@ -55,8 +55,16 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
     try {
       $response = $this->httpClient->request('GET', $endpoint);
       $response_result = Json::decode($response->getBody()->__toString());
-      $results = !empty($response_result['results']) ? $response_result['results'] : [];
-      if (!empty($results)) {
+      $all_currencies_data = !empty($response_result['results']) ? $response_result['results'] : [];
+      if (!empty($all_currencies_data)) {
+        $column_sort_by = array_column($all_currencies_data, 'currencyName');
+        if ($column_sort_by) {
+          array_multisort($column_sort_by, SORT_ASC, $all_currencies_data);
+        }
+
+        foreach ($all_currencies_data as $currency) {
+          $results[$currency['id']] = $currency['currencyName'];
+        }
         $this->cacheSet($cid, $results, $this->time->getCurrentTime() + self::CACHE_TIME);
       }
     }
@@ -73,14 +81,22 @@ class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
    * {@inheritdoc}
    */
   public function convert($from, $to) {
-    // TODO: Check if currencies are accessible for the provider.
+    $results = [];
+    $all_currencies = array_keys($this->getAllCurrencies());
+    if (!in_array($from, $all_currencies) || !in_array($to, $all_currencies)) {
+      $this->logger->error("Cannot convert from %from to %to.", [
+        '%from' => $from,
+        '%to' => $to,
+      ]);
+      return $results;
+    }
+
     $api_key = $this->currencyConverterApiConfig->get('api_key');
     $from_to_key = $from . '_' . $to;
     $from_to_cid = 'free_currency_converter_api:rate:' . $from_to_key;
     $from_to_reverse_key = $to . '_' . $from;
     $from_to_reverse_cid = 'free_currency_converter_api:rate:' . $from_to_reverse_key;
     $endpoint = $this->apiUrl . '/convert?apiKey=' . $api_key . '&q=' . $from_to_key . ',' . $from_to_reverse_key;
-    $results = [];
 
     $cached = $this->cacheGet($from_to_cid);
     if ($cached) {
