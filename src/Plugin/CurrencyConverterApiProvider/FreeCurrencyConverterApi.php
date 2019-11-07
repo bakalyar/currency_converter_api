@@ -18,7 +18,7 @@ use Drupal\Component\Serialization\Json;
 class FreeCurrencyConverterApi extends CurrencyConverterApiProviderBase {
 
   // TODO: add to settings form.
-  const CACHE_TIME = 86400;
+  const CACHE_TIME = 3600;
 
   /**
    * {@inheritdoc}

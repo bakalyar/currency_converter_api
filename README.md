@@ -13,7 +13,7 @@ and rates using different providers.
 3(DONE). Create a plugin 'Free Currency Converter API' for
 free.currencyconverterapi.com
 
-4.Provide a block for converting with allowed currencies and ordering settings.
+4.(DONE). Provide a block for converting with allowed currencies and ordering settings.
 
 5.(DONE). Create caching for some time for currencies rates.
 
@@ -21,4 +21,6 @@ free.currencyconverterapi.com
 
 ##In the future:
 
-1. Provide endpoint for converting.
+1. Add reversed converting in block.
+2. Provide endpoint for converting.
+
