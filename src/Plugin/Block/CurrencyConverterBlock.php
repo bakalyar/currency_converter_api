@@ -155,7 +155,6 @@ class CurrencyConverterBlock extends BlockBase implements FormInterface, Contain
     $weights = array_column($rows, '#weight');
     array_multisort($weights, SORT_ASC, $rows);
 
-
     $form['currencies'] = array_merge($table, $rows);
 
     return $form;

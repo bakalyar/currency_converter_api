@@ -2,25 +2,12 @@
 Drupal 8 module that allows to use the currency converter 
 and rates using different providers.
 
-##Basic version:
+##Features:
 
-1(DONE). Create configuration form
- - Provider
- - Provider specific settings
+- Provides plugin 'Free Currency Converter API' for free.currencyconverterapi.com
+- Block for converting with allowed currencies. 
 
-2(DONE). Create plugin type 'Currency Converter API Provider'
+##TODO list for future:
 
-3(DONE). Create a plugin 'Free Currency Converter API' for
-free.currencyconverterapi.com
-
-4.(DONE). Provide a block for converting with allowed currencies and ordering settings.
-
-5.(DONE). Create caching for some time for currencies rates.
-
-6.(DONE). Provide Travis CI.
-
-##In the future:
-
-1. Add reversed converting in block.
-2. Provide endpoint for converting.
-
+1. Add reversed converting in the block.
+2. Provide REST endpoint for converting.
