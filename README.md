@@ -4,7 +4,8 @@ and rates using different providers.
 
 ##Features:
 
-- Provides plugin 'Free Currency Converter API' for free.currencyconverterapi.com
+- Provides plugin 'Free Currency Converter API' for 
+free version of currencyconverterapi.com
 - Block for converting with allowed currencies. 
 
 ##TODO list for future:
